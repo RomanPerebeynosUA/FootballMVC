@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FootballMVC.Controllers.ApiControllers
 {
-    public class PlayerController : Controller
+    public class PlayerApiController : Controller
     {
         private static HttpClient client = new HttpClient();
 
