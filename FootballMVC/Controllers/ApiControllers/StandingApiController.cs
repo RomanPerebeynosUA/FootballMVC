@@ -10,22 +10,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FootballMVC.Controllers.ApiControllers
 {
-    public class PlayerApiController : Controller
+    public class StandingApiController : Controller
     {
         private static HttpClient client = new HttpClient();
 
-        PlayerApi playerApi = new PlayerApi();
+        StandingApi standingApi = new StandingApi();
+
+        static List<Standing> standings = new List<Standing>();
 
         public async Task<IActionResult> Index()
         {
             Connection.ConnectionToApi(client);
-
-            string defolt = "?action=get_players&player_id=3183500916&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
-            Player player = new Player();
-            player = await playerApi.GetEntityAsync(defolt, client);
-            List<Player> players = new List<Player>();
-            players.Add(player);
-            return View(players.ToList());
+            string defolt = "?action=get_standings&league_id=148&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
+            standings = await standingApi.GetListEntityAsync(defolt, client);
+            return View(standings);
         }
+
     }
 }

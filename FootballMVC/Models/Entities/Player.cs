@@ -47,7 +47,7 @@ namespace FootballMVC.Models.Entities
         [JsonPropertyName("player_red_cards")]
         [Display(Name = "Кількість червоних карточок")]
         public string Red_cards { get; set; }
-
+        
         [JsonPropertyName("team_key")]
         public string TeamId { get; set; }
         public Team Team { get; set; }

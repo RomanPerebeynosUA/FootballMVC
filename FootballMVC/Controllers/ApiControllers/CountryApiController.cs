@@ -15,23 +15,32 @@ namespace FootballMVC.Controllers.ApiControllers
         private static HttpClient client = new HttpClient();
 
         CountryApi countryApi = new CountryApi();
+        CompetitionApi competitionApi = new CompetitionApi();
+
+        static List<Country> countries = new List<Country>();
+
+        static List<Competition> competitions = new List<Competition>();
 
         public async Task<IActionResult> Index()
         {
-            Connection.ConnectionToApi(client);
-            string defolt = "?action=get_countries&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
-            return View(await countryApi.GetListEntityAsync(defolt, client));
+           // Connection.ConnectionToApi(client);
+            string defolt = "https://apiv2.apifootball.com?action=get_countries&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
+            countries = await countryApi.GetListEntityAsync(defolt, client);
+            return View(countries);
         }
-        //public async Task<IActionResult> Index()
-        //{
-        //    Connection.ConnectionToApi(client);
-
-        //    string defolt = "?action=get_countries&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
-        //    Country country = new Country();
-        //    List<Country> countrys = new List<Country>();
-        //    countrys = await countryApi.GetEntityAsync(defolt, client);
-        //    countrys.Add(country);
-        //    return View(countrys.ToList());
-        //}
+        public async Task<IActionResult> CountryLeags(string? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+           // Connection.ConnectionToApi(client);
+            //client.DefaultRequestHeaders.Add("country_id", id);
+            //client.DefaultRequestHeaders.Add("APIkey", "a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24");
+            string defolt = "https://apiv2.apifootball.com?action=get_leagues&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&country_id=";
+            defolt += id;
+            competitions = await competitionApi.GetListEntityAsync(defolt, client);
+            return View(competitions);
+        }
     }
 }

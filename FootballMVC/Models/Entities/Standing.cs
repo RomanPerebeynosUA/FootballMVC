@@ -20,7 +20,11 @@ namespace FootballMVC.Models.Entities
         [JsonPropertyName("team_id")]
         public string Team_id { get; set; }
 
-      [JsonPropertyName("overall_league_position")]
+        [JsonPropertyName("team_name")]
+        [Display(Name = "Назва")]
+        public string Team_Name { get; set; }
+
+        [JsonPropertyName("overall_league_position")]
       [Display(Name = "Позиція в таблиці")]
       public string overall_league_position { get; set; }
 

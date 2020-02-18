@@ -1,0 +1,70 @@
+﻿@model IEnumerable<FootballMVC.Models.Entities.Standing>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            @*<th>
+            @Html.DisplayNameFor(model => model.Competition_Id)
+        </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.overall_league_position)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Team_Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.overall_league_payed)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.overall_league_W)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.overall_league_D)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.overall_league_L)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.overall_league_PTS)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Competition_Id)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.overall_league_position)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Team_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.overall_league_payed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.overall_league_W)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.overall_league_D)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.overall_league_L)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.overall_league_PTS)
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
