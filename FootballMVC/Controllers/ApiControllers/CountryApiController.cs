@@ -28,7 +28,7 @@ namespace FootballMVC.Controllers.ApiControllers
             countries = await countryApi.GetListEntityAsync(defolt, client);
             return View(countries);
         }
-        public async Task<IActionResult> CountryLeags(string? id)
+        public async Task<IActionResult> CountryLeags(string id)
         {
             if (id == null)
             {

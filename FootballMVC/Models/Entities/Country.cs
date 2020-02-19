@@ -10,6 +10,7 @@ namespace FootballMVC.Models.Entities
     public class Country
     {
         [JsonPropertyName("country_id")]
+        [Key]
         public string Id { get; set; }
 
         [Display(Name = "Назва країни")]

@@ -10,6 +10,7 @@ namespace FootballMVC.Models.Entities
     public class Team
     {
         [JsonPropertyName("team_key")]
+        [Key]
         public string Id { get; set; }
 
         [JsonPropertyName("team_name")]

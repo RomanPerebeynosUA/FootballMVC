@@ -19,11 +19,19 @@ namespace FootballMVC.Data.ApiData.Repositories
         {
             string json;
             List<Standing> standings = new List<Standing>();
-            HttpResponseMessage response = await client.GetAsync(path);
+           
+            string eror = "{\"error\":404,\"message\":\"Standing not found!\"}";
+            
+        HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
                 // competitions = await response.Content.ReadAsAsync < List<Competition>>();
                 json = await response.Content.ReadAsStringAsync();
+                if (json == eror) 
+                {
+                    standings = null;
+                    return standings;
+                }
                 standings = JsonSerializer.Deserialize<List<Standing>>(json);
             }
             return standings;

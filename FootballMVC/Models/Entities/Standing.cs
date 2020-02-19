@@ -13,6 +13,7 @@ namespace FootballMVC.Models.Entities
         public  Competition Competition { get; set; }
 
         [JsonPropertyName("league_id")]
+        [Key]
         public  string Competition_Id { get; set; }
 
         public Team Team { get; set; }
@@ -26,26 +27,26 @@ namespace FootballMVC.Models.Entities
 
         [JsonPropertyName("overall_league_position")]
       [Display(Name = "Позиція в таблиці")]
-      public string overall_league_position { get; set; }
+      public string LeaguePosition { get; set; }
 
       [JsonPropertyName("overall_league_payed")]
       [Display(Name = "Кількість зіграних матчів")]
-      public string overall_league_payed { get; set; }
+      public string League_payed { get; set; }
 
       [JsonPropertyName("overall_league_W")]
       [Display(Name = "Кількість виграних матчів")]
-      public string overall_league_W { get; set; }
+      public string League_W { get; set; }
 
       [JsonPropertyName("overall_league_D")]
       [Display(Name = "Кількість нічіїх")]
-      public string overall_league_D { get; set; }
+      public string League_D { get; set; }
 
       [JsonPropertyName("overall_league_L")]
       [Display(Name = "Кількість програних матчів")]
-      public string overall_league_L { get; set; }
+      public string League_L { get; set; }
 
       [JsonPropertyName("overall_league_PTS")]
       [Display(Name = "Кількість очків")]
-      public string overall_league_PTS { get; set; }
+      public string League_PTS { get; set; }
     }
 }

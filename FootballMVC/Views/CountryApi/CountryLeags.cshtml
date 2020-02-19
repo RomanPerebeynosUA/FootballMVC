@@ -35,6 +35,7 @@
                 @Html.DisplayFor(modelItem => item.CountryId)
             </td>
             <td>
+                <a asp-controller="TeamApi" asp-action="ViewStandingByLeagID" asp-route-id="@item.Id">Турнірна таблиця</a>
                 <a asp-controller="TeamApi" asp-action="ViewTemsByLeagID" asp-route-id="@item.Id">Команди</a>
             </td>
         </tr>

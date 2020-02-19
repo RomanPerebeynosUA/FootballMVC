@@ -1,0 +1,66 @@
+﻿@model FootballMVC.Models.Entities.Standing
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Standing</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Competition_Id" />
+            <div class="form-group">
+                <label asp-for="Team_id" class="control-label"></label>
+                <input asp-for="Team_id" class="form-control" />
+                <span asp-validation-for="Team_id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Team_Name" class="control-label"></label>
+                <input asp-for="Team_Name" class="form-control" />
+                <span asp-validation-for="Team_Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaguePosition" class="control-label"></label>
+                <input asp-for="LeaguePosition" class="form-control" />
+                <span asp-validation-for="LeaguePosition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="League_payed" class="control-label"></label>
+                <input asp-for="League_payed" class="form-control" />
+                <span asp-validation-for="League_payed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="League_W" class="control-label"></label>
+                <input asp-for="League_W" class="form-control" />
+                <span asp-validation-for="League_W" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="League_D" class="control-label"></label>
+                <input asp-for="League_D" class="form-control" />
+                <span asp-validation-for="League_D" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="League_L" class="control-label"></label>
+                <input asp-for="League_L" class="form-control" />
+                <span asp-validation-for="League_L" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="League_PTS" class="control-label"></label>
+                <input asp-for="League_PTS" class="form-control" />
+                <span asp-validation-for="League_PTS" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

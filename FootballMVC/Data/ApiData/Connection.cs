@@ -11,7 +11,7 @@ namespace FootballMVC.Data.ApiData
     {
         public static void ConnectionToApi(HttpClient Client)
         {
-            Client.BaseAddress = new Uri("https://apiv2.apifootball.com");
+            Client.BaseAddress = new Uri("https://apiv2.apifootball.com/");
             Client.DefaultRequestHeaders.Accept.Clear();
 
             Client.DefaultRequestHeaders.Accept.Add(

@@ -20,8 +20,8 @@ namespace FootballMVC.Controllers.ApiControllers
 
         public async Task<IActionResult> Index()
         {
-            Connection.ConnectionToApi(client);
-            string defolt = "?action=get_standings&league_id=148&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
+          //  Connection.ConnectionToApi(client);
+            string defolt = "https://apiv2.apifootball.com?action=get_standings&league_id=148&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
             standings = await standingApi.GetListEntityAsync(defolt, client);
             return View(standings);
         }
