@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FootballMVC.Models;
+using FootballMVC.Data.ApiData;
+using System.Net.Http;
 
 namespace FootballMVC.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+   
 
         public HomeController(ILogger<HomeController> logger)
         {

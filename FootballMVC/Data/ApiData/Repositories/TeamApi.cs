@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace FootballMVC.Data.ApiData.Repositories
             Team team = null;
             string json;
             HttpResponseMessage response = await client.GetAsync(path);
-            if (response.IsSuccessStatusCode)
+                 if (response.IsSuccessStatusCode)
             {
                 // player = await response.Content.ReadAsAsync<Player>();
                 json = await response.Content.ReadAsStringAsync();

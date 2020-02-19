@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -24,6 +25,11 @@ namespace FootballMVC.Data.ApiData.Repositories
                 player = JsonSerializer.Deserialize<Player>(json);
             }
             return player;
+        }
+
+        public Task<List<Player>> GetListEntityAsync(string path, HttpClient client)
+        {
+            throw new NotImplementedException();
         }
     }
 }

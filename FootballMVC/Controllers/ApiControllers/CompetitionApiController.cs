@@ -14,24 +14,14 @@ namespace FootballMVC.Controllers.ApiControllers
     {
         private static HttpClient client = new HttpClient();
 
-        CompetitionApi competitionApi = new CompetitionApi();
-
-        static List<Competition> competitions = new List<Competition>();
+        private CompetitionApi competitionApi = new CompetitionApi();
+        private Connection connection = new Connection();
 
         public async Task<IActionResult> Index()
         {
-         //   Connection.ConnectionToApi(client);
+            connection.ConnectionToApi(client);
             string defolt = "https://apiv2.apifootball.com?action=get_leagues&country_id=41&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
-            competitions = await competitionApi.GetListEntityAsync(defolt, client);
-            return View(competitions);
+            return View(await competitionApi.GetListEntityAsync(defolt, client));
         }
-
-        //public async Task<IActionResult> ViewTeamsOfCompetition()
-        //{
-        //    Connection.ConnectionToApi(client);
-        //    string defolt = "?action=get_leagues&country_id=41&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
-        //    competitions = await competitionApi.GetListEntityAsync(defolt, client);
-        //    return View(competitions);
-        //}
     }
 }

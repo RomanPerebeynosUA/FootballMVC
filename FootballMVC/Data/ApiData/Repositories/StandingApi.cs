@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -21,8 +22,8 @@ namespace FootballMVC.Data.ApiData.Repositories
             List<Standing> standings = new List<Standing>();
            
             string eror = "{\"error\":404,\"message\":\"Standing not found!\"}";
-            
-        HttpResponseMessage response = await client.GetAsync(path);
+
+            HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
                 // competitions = await response.Content.ReadAsAsync < List<Competition>>();

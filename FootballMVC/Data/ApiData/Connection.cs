@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace FootballMVC.Data.ApiData
 {
-    public class Connection
+    public  class Connection
     {
-        public static void ConnectionToApi(HttpClient Client)
+        public void ConnectionToApi(HttpClient Client)
         {
-            Client.BaseAddress = new Uri("https://apiv2.apifootball.com/");
+            Client.BaseAddress = new Uri("https://apiv2.apifootball.com");
             Client.DefaultRequestHeaders.Accept.Clear();
 
             Client.DefaultRequestHeaders.Accept.Add(

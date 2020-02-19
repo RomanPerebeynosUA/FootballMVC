@@ -10,7 +10,7 @@ namespace FootballMVC.Data.ApiData.Interfaces
         public interface IRepositoryApi<T> 
         {
             Task<T> GetEntityAsync(string path, HttpClient client);
-
+            Task<List<T>> GetListEntityAsync(string path, HttpClient client);
         }
     
 }

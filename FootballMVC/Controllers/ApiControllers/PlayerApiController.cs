@@ -15,14 +15,11 @@ namespace FootballMVC.Controllers.ApiControllers
         private static HttpClient client = new HttpClient();
 
         PlayerApi playerApi = new PlayerApi();
-
+       
         public async Task<IActionResult> Index()
         {
-            Connection.ConnectionToApi(client);
-
-            string defolt = "?action=get_players&player_id=3183500916&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
-            Player player = new Player();
-            player = await playerApi.GetEntityAsync(defolt, client);
+            string defolt = "https://apiv2.apifootball.com?action=get_players&player_id=3183500916&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
+            Player player = await playerApi.GetEntityAsync(defolt, client);
             List<Player> players = new List<Player>();
             players.Add(player);
             return View(players.ToList());

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -14,8 +15,8 @@ namespace FootballMVC.Data.ApiData.Repositories
         public async Task<Country> GetEntityAsync(string path, HttpClient client)
         {
             Country country = null;
-            string json;
             List<Country> countries = new List<Country>();
+            string json;
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
@@ -28,6 +29,9 @@ namespace FootballMVC.Data.ApiData.Repositories
         public async Task<List<Country>> GetListEntityAsync(string path, HttpClient client)
         {
             string json;
+            client.BaseAddress = new Uri("https://apiv2.apifootball.com");
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
             List<Country> countries = new List<Country>();
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
