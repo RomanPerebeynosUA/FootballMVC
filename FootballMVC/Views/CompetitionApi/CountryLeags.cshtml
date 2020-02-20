@@ -38,9 +38,10 @@
                 <a asp-controller="TeamApi" asp-action="ViewStandingByLeagID" asp-route-id="@item.Id">Турнірна таблиця</a>
                 <a asp-controller="TeamApi" asp-action="ViewTemsByLeagID" asp-route-id="@item.Id">Команди</a>
             </td>
-        </tr>
-
-          
+            <td>
+                <a asp-action="SaveToDateBase" asp-route-id="@item.Id">SaveToDateBase</a> |
+            </td>
+        </tr>          
         }
     </tbody>
 </table>

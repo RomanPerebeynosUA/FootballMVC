@@ -40,5 +40,6 @@ namespace FootballMVC.Data.ApiData.Repositories
             }
             return competitions;
         }
+
     }
 }

@@ -28,10 +28,7 @@ namespace FootballMVC.Data.ApiData.Repositories
         }
         public async Task<List<Country>> GetListEntityAsync(string path, HttpClient client)
         {
-            string json;
-            client.BaseAddress = new Uri("https://apiv2.apifootball.com");
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
+            string json;   
             List<Country> countries = new List<Country>();
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)

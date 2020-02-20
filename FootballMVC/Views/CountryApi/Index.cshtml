@@ -21,17 +21,21 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>            
-                <a asp-action="CountryLeags" asp-route-id="@item.Id">CountryLeags</a> |
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <a asp-controller="CompetitionApi" asp-action="CountryLeags" asp-route-id="@item.Id">CountryLeags</a>
+                </td>
+                <td>
+                    <a asp-action="SaveToDateBase" asp-route-id="@item.Id">SaveToDateBase</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+<a asp-action="SaveAllToDateBase">Зберегти всі країни</a>
