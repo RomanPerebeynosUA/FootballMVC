@@ -4,8 +4,9 @@
     ViewData["Title"] = "CountryLeags";
 }
 
-<h1>Index</h1>
+<h1>Турніри</h1>
 
+<a asp-action="SaveAllToDateBase" asp-route-id="@Model.FirstOrDefault().CountryId">Зберегти всі турніри</a>
 <table class="table">
     <thead>
         <tr>
@@ -24,27 +25,31 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CountryId)
-            </td>
-            <td>
-                <a asp-controller="TeamApi" asp-action="ViewStandingByLeagID" asp-route-id="@item.Id">Турнірна таблиця</a>
-                <a asp-controller="TeamApi" asp-action="ViewTemsByLeagID" asp-route-id="@item.Id">Команди</a>
-            </td>
-            <td>
-                <a asp-action="SaveToDateBase" asp-route-id="@item.Id">SaveToDateBase</a> |
-            </td>
-        </tr>          
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CountryId)
+                </td>
+                <td>
+                    <a asp-controller="TeamApi" asp-action="ViewStandingByLeagID" asp-route-id="@item.Id">Турнірна таблиця</a>
+                <td>
+                </td>
+                <td>
+                    <a asp-controller="TeamApi" asp-action="ViewTemsByLeagID" asp-route-id="@item.Id">Команди</a>
+                </td>
+                <td>
+                    <a asp-action="SaveToDateBase" asp-route-id="@item.Id">Зберегти</a>
+                </td>
+            </tr>
+
         }
     </tbody>
 </table>
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="CountryApi" asp-action="Index">Назад</a>
 </div>

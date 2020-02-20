@@ -1,4 +1,5 @@
 ﻿using FootballMVC.Data.ApiData.Interfaces;
+using FootballMVC.Data.DataBase;
 using FootballMVC.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,34 @@ namespace FootballMVC.Data.ApiData.Repositories
                  competitions = JsonSerializer.Deserialize<List<Competition>>(json);
             }
             return competitions;
+        }
+        public List<Competition> SaveAllToDateBase(AppDBContext _context, List<Competition> competitions)
+        {
+            List<string> str1 = new List<string>();
+            List<string> str2 = new List<string>();
+            List<string> str3 = new List<string>();
+            List<Competition> coun = new List<Competition>();
+            foreach (Competition c in competitions)
+            {
+                str1.Add(c.Id);
+            }
+            foreach (Competition c in _context.Competitions)
+            {
+                str2.Add(c.Id);
+            }
+            str3 = str1.Except(str2).ToList();
+
+            foreach (Competition c in competitions)
+            {
+                foreach (string s in str3)
+                {
+                    if (c.Id == s)
+                    {
+                        coun.Add(c);
+                    }
+                }
+            }
+            return (coun);
         }
 
     }

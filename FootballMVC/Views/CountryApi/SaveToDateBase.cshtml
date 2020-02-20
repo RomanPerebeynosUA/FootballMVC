@@ -1,10 +1,19 @@
-﻿
+﻿@model FootballMVC.Models.Entities.Country
 @{
     ViewData["Title"] = "SaveToDateBase";
 }
 
-<h1>Збережено</h1>
-
+@{
+        if (Model != null)
+        {
+            <h1>Країна вже була збережена в базі даних</h1>
+        }
+        else
+        {
+            <h1>Збережено</h1>
+        }
+}
+ 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Назад</a>
 </div>

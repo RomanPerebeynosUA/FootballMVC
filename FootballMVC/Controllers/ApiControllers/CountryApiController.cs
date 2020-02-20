@@ -47,36 +47,65 @@ namespace FootballMVC.Controllers.ApiControllers
 
                 _context.Countries.Add(country);
                 await _context.SaveChangesAsync();
-                return View();
+                country = null;
+                return View(country);
             }
-            return RedirectToAction(nameof(Index));
+            return View(country);
         }
+        //public async Task<IActionResult> SaveAllToDateBase()
+        //{
+        //    List<string> str1 = new List<string>();
+        //    List<string> str2 = new List<string>();
+        //    List<string> str3;
+        //    int count = _context.Countries.Count();
+        //    if (count !=0)
+        //    {
+        //        foreach (Country c in countries)
+        //        {
+        //            str1.Add(c.Id);
+        //        }
+        //        foreach (Country c in _context.Countries)
+        //        {
+        //            str2.Add(c.Id);
+        //        }
+        //        str3 = str1.Except(str2).ToList();
+        //        foreach (Country c in countries)
+        //        {
+        //            foreach (string s in str3)
+        //            {
+        //                if(c.Id == s)
+        //                {
+        //                    _context.Countries.Add(c);
+        //                }
+        //            }
+        //        }
+        //        await _context.SaveChangesAsync();
+        //        return View();
+        //    }
+        //    foreach (Country c in countries)
+        //    {
+        //        _context.Countries.Add(c);
+        //    }
+        //    await _context.SaveChangesAsync();
+        //    return View();
+        //}
         public async Task<IActionResult> SaveAllToDateBase()
         {
-            List<Country> countryDb = new List<Country>();
-            foreach (Country c in _context.Countries)
+            List<Country> coun = new List<Country>();
+            int count = _context.Countries.Count();
+            if (count != 0)
             {
-                countryDb.Add(_context.Countries.FirstOrDefault());
-            }
-            int count = countryDb.Count();
-            if (count !=0)
-            {
-                foreach (Country c in countryDb)
+                coun = countryApi.SaveAllToDateBase(_context, countries);
+                foreach (Country c in coun)
                 {
-                    foreach (Country t in countries)
-                    {
-                        if (c.Id != t.Id)
-                        {
-                            _context.Countries.Add(t);
-                        }
-                    }  
+                  _context.Countries.Add(c);
                 }
                 await _context.SaveChangesAsync();
                 return View();
             }
-            foreach (Country t in countries)
+            foreach (Country c in countries)
             {
-               _context.Countries.Add(t);
+                _context.Countries.Add(c);
             }
             await _context.SaveChangesAsync();
             return View();

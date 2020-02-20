@@ -58,9 +58,35 @@ namespace FootballMVC.Controllers.ApiControllers
 
                 _context.Competitions.Add(competition);
                 await _context.SaveChangesAsync();
+                competition = null;
+                return View(competition);
+            }
+            return View(competition);
+        }
+        public async Task<IActionResult> SaveAllToDateBase(string id)
+        {
+            List<Competition> coun = new List<Competition>();
+            bool saved = false;
+            int count = _context.Competitions.Where(p => p.CountryId == id).Count();
+            if (count != 0)
+            {
+                coun = competitionApi.SaveAllToDateBase(_context, competitions);
+                foreach (Competition c in coun)
+                {
+                    _context.Competitions.Add(c);
+                }
+                await _context.SaveChangesAsync();
+                saved = true;
                 return View();
             }
-            return RedirectToAction(nameof(CountryLeags));
+            foreach (Competition c in competitions)
+            {
+                _context.Competitions.Add(c);
+            }
+            await _context.SaveChangesAsync();
+          
+            return View(saved);
         }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FootballMVC.Data.ApiData.Interfaces;
+using FootballMVC.Data.DataBase;
 using FootballMVC.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace FootballMVC.Data.ApiData.Repositories
         }
         public async Task<List<Country>> GetListEntityAsync(string path, HttpClient client)
         {
-            string json;   
+            string json;
             List<Country> countries = new List<Country>();
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
@@ -38,6 +39,33 @@ namespace FootballMVC.Data.ApiData.Repositories
             }
             return countries;
         }
+        public List<Country> SaveAllToDateBase(AppDBContext _context, List<Country> countries)
+        {
+            List<string> str1 = new List<string>();
+            List<string> str2 = new List<string>();
+            List<string> str3 = new List<string>();
+            List<Country> coun = new List<Country>(); 
+                foreach (Country c in countries)
+                {
+                    str1.Add(c.Id);
+                }
+                foreach (Country c in _context.Countries)
+                {
+                    str2.Add(c.Id);
+                }
+            str3 = str1.Except(str2).ToList();
+
+            foreach (Country c in countries)
+            {
+                foreach (string s in str3)
+                {
+                    if (c.Id == s)
+                    {
+                        coun.Add(c);
+                    }
+                }
+            }
+            return (coun);
+        }
     }
-  
 }
