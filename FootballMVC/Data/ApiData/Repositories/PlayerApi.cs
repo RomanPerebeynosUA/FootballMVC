@@ -1,4 +1,5 @@
 ﻿using FootballMVC.Data.ApiData.Interfaces;
+using FootballMVC.Data.DataBase;
 using FootballMVC.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -31,5 +32,36 @@ namespace FootballMVC.Data.ApiData.Repositories
         {
             throw new NotImplementedException();
         }
+        public List<Player> SaveAllToDateBase(AppDBContext _context, List<Player> players)
+        {
+            List<long> str1 = new List<long>();
+            List<long> str2 = new List<long>();
+            List<long> str3 = new List<long>();
+
+            List<Player> play = new List<Player>();
+
+            foreach (Player t in players)
+            {
+                str1.Add(t.Id);
+            }
+            foreach (Player t in _context.Players)
+            {
+                str2.Add(t.Id);
+            }
+            str3 = str1.Except(str2).ToList();
+
+            foreach (Player t in players)
+            {
+                foreach (long s in str3)
+                {
+                    if (t.Id == s)
+                    {
+                        play.Add(t);
+                    }
+                }
+            }
+            return (play);
+        }
     }
 }
+

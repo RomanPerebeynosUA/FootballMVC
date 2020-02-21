@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace FootballMVC.Models.Entities
+namespace FootballMVC.Models.Entities.PlayersInTeam
 {
-    public class Team
+    public class TeamWithPlayers
     {
         [JsonPropertyName("team_key")]
         [Key]
@@ -17,7 +17,7 @@ namespace FootballMVC.Models.Entities
         [Display(Name = "Ім'я")]
         public string Name { get; set; }
 
-      //  [JsonPropertyName("players")]
+        [JsonPropertyName("players")]
         public List<Player> Players { get; set; }
     }
 }

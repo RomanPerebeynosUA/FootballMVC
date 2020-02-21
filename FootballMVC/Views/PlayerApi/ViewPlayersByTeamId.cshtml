@@ -5,7 +5,7 @@
 }
 
     <h1>ViewPlayersByTeamId</h1>
-
+    <a asp-action="SaveAllToDateBase">Зберегти всіх гравців</a>
 <table class="table">
     <thead>
         <tr>
@@ -87,5 +87,5 @@
     </tbody>
 </table>
 <div>
-    <a asp-action="ViewTemsByLeagID">Back to List</a>
+    <a asp-controller="TeamApi" asp-action="ViewTemsByLeagID">Назад</a>
 </div>

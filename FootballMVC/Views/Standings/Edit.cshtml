@@ -12,12 +12,7 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Competition_Id" />
-            <div class="form-group">
-                <label asp-for="Team_id" class="control-label"></label>
-                <input asp-for="Team_id" class="form-control" />
-                <span asp-validation-for="Team_id" class="text-danger"></span>
-            </div>
+            <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Team_Name" class="control-label"></label>
                 <input asp-for="Team_Name" class="form-control" />
@@ -52,6 +47,16 @@
                 <label asp-for="League_PTS" class="control-label"></label>
                 <input asp-for="League_PTS" class="form-control" />
                 <span asp-validation-for="League_PTS" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Competition_Id" class="control-label"></label>
+                <input asp-for="Competition_Id" class="form-control" />
+                <span asp-validation-for="Competition_Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Team_id" class="control-label"></label>
+                <input asp-for="Team_id" class="form-control" />
+                <span asp-validation-for="Team_id" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

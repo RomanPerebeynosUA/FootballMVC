@@ -1,4 +1,5 @@
 ﻿using FootballMVC.Data.ApiData.Interfaces;
+using FootballMVC.Data.DataBase;
 using FootballMVC.Models.Entities;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,36 @@ namespace FootballMVC.Data.ApiData.Repositories
                 standings = JsonSerializer.Deserialize<List<Standing>>(json);
             }
             return standings;
+        }
+        public List<Standing> SaveAllToDateBase(AppDBContext _context, List<Standing> standings)
+        {
+            List<string> str1 = new List<string>();
+            List<string> str2 = new List<string>();
+            List<string> str3 = new List<string>();
+
+            List<Standing> standAdd = new List<Standing>();
+
+            foreach (Standing t in standings)
+            {
+                str1.Add(t.Team_id);
+            }
+            foreach (Standing t in _context.Standings)
+            {
+                str2.Add(t.Team_id);
+            }
+            str3 = str1.Except(str2).ToList();
+
+            foreach (Standing t in standings)
+            {
+                foreach (string s in str3)
+                {
+                    if (t.Team_id == s)
+                    {
+                        standAdd.Add(t);
+                    }
+                }
+            }
+            return (standAdd);
         }
 
     }

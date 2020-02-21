@@ -4,7 +4,9 @@
     ViewData["Title"] = "ViewStandingByLeagID";
 }
 
-    <h1>ViewStandingByLeagID</h1>
+<h1>ViewStandingByLeagID</h1>
+
+<a asp-action="SaveAllToDateBase">Зберегти всі команди</a>
 
 <table class="table">
     <thead>
@@ -39,32 +41,32 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                @*<td>
-                        @Html.DisplayFor(modelItem => item.Competition_Id)
-                    </td>*@
-                <td>
-                    @Html.DisplayFor(modelItem => item.LeaguePosition)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Team_Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.League_payed)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.League_W)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.League_D)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.League_L)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.League_PTS)
-                </td>
-            </tr>
+        <tr>
+            @*<td>
+            @Html.DisplayFor(modelItem => item.Competition_Id)
+        </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.LeaguePosition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Team_Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.League_payed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.League_W)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.League_D)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.League_L)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.League_PTS)
+            </td>
+        </tr>
         }
     </tbody>
 </table>

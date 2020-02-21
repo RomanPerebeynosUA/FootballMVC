@@ -5,8 +5,9 @@
     ViewData["Title"] = "ViewTemsByLeagID";
 }
 
-<h1>ViewTemsByLeagID</h1>
+<h1>Команди</h1>
 
+<a asp-action="SaveAllToDateBase">Зберегти всі команди</a>
 <table class="table">
     <thead>
         <tr>
@@ -32,12 +33,15 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-controller="TeamApi" asp-action="ViewPlayersByTeamId" asp-route-id="@item.Id">Список Гравців</a>
+                <a asp-controller="PlayerApi" asp-action="ViewPlayersByTeamId" asp-route-id="@item.Id">Список Гравців</a>
+            </td>
+            <td>
+                <a asp-action="SaveToDateBase" asp-route-id="@item.Id">Зберегти</a>
             </td>
         </tr>
         }
     </tbody>
 </table>
 <div>
-    <a asp-action="CountryLeags">Back to List</a>
+    <a asp-controller="CompetitionApi" asp-action="CountryLeags">Назад</a>
 </div>
