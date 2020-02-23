@@ -43,7 +43,7 @@ namespace FootballMVC.Data.ApiData.Repositories
         {
             List<string> str1 = new List<string>();
             List<string> str2 = new List<string>();
-            List<string> str3 = new List<string>();
+
             List<Country> coun = new List<Country>(); 
                 foreach (Country c in countries)
                 {
@@ -53,11 +53,15 @@ namespace FootballMVC.Data.ApiData.Repositories
                 {
                     str2.Add(c.Id);
                 }
-            str3 = str1.Except(str2).ToList();
+            str1 = str1.Except(str2).ToList();
 
+            if(str1.Count == 0)
+            {
+                return (coun);
+            }
             foreach (Country c in countries)
             {
-                foreach (string s in str3)
+                foreach (string s in str1)
                 {
                     if (c.Id == s)
                     {

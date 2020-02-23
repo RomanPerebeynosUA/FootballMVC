@@ -18,6 +18,7 @@ namespace FootballMVC.Controllers.ApiControllers
         private static HttpClient client = new HttpClient();
 
         static List<Player> players = new List<Player>();
+        static string TeamId;
 
         PlayerApi playerApi = new PlayerApi();
         TeamWithPlayersApi teamwithPlayersApi = new TeamWithPlayersApi();
@@ -31,17 +32,14 @@ namespace FootballMVC.Controllers.ApiControllers
 
         public async Task<IActionResult> Index()
         {
-
             string defolt = "https://apiv2.apifootball.com?action=get_players&player_id=3183500916&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
-            Player player = await playerApi.GetEntityAsync(defolt, client);
-            List<Player> players = new List<Player>();
-            players.Add(player);
-           
-            return View(players.ToList());
+            return View(await playerApi.GetEntityAsync(defolt, client));
         }
 
         public async Task<IActionResult> ViewPlayersByTeamId(string id)
         {
+            TeamId = id;
+            ViewBag.Id = TeamId;
             if (id == null)
             {
                 return NotFound();
@@ -58,8 +56,14 @@ namespace FootballMVC.Controllers.ApiControllers
         }
         public async Task<IActionResult> SaveAllToDateBase()
         {
-            List<Player> play = new List<Player>();
-            play = playerApi.SaveAllToDateBase(_context, players);
+            ViewBag.Id = TeamId;
+            ViewData["Answer"] = "Збережено";
+            List<Player> play = playerApi.SaveAllToDateBase(_context, players);
+            if (play.Count() == 0)
+            {
+                ViewData["Answer"] = "Гравці вже були збережені в базі даних";
+                return View();
+            }
             foreach (Player p in play)
             {
                 _context.Players.Add(p);

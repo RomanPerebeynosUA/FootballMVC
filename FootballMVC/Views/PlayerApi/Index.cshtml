@@ -1,4 +1,4 @@
-﻿@model IEnumerable<FootballMVC.Models.Entities.Player>
+﻿@model  FootballMVC.Models.Entities.Player
 
 @{
     ViewData["Title"] = "Index";
@@ -46,44 +46,42 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
+      
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => Model.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => Model.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Number)
+                @Html.DisplayFor(modelItem => Model.Number)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Country)
+                @Html.DisplayFor(modelItem => Model.Country)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Type)
+                @Html.DisplayFor(modelItem => Model.Type)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Age)
+                @Html.DisplayFor(modelItem => Model.Age)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Match_played)
+                @Html.DisplayFor(modelItem => Model.Match_played)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Goals)
+                @Html.DisplayFor(modelItem => Model.Goals)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Yellow_cards)
+                @Html.DisplayFor(modelItem => Model.Yellow_cards)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Red_cards)
+                @Html.DisplayFor(modelItem => Model.Red_cards)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TeamId)
+                @Html.DisplayFor(modelItem => Model.TeamId)
             </td>
             <td>
         </tr>
-        }
     </tbody>
 </table>

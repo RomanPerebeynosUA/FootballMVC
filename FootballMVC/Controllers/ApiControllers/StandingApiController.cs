@@ -41,6 +41,7 @@ namespace FootballMVC.Controllers.ApiControllers
             }
             string defolt = "https://apiv2.apifootball.com?action=get_standings&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&league_id=";
             defolt += id;
+        
             standings = await standingApi.GetListEntityAsync(defolt, client);
             if (standings == null)
             {
@@ -48,18 +49,31 @@ namespace FootballMVC.Controllers.ApiControllers
             }
             return View(standings);
         }
-        public async Task<IActionResult> SaveAllToDateBase()
+        public async Task<IActionResult> SaveAllToDateBase(string id)
         {
-           // List<Standing> teamAdd = new List<Standing>();
-          //  teamAdd = standingApi.SaveAllToDateBase(_context, standings);
-            foreach (Standing s in standingApi.SaveAllToDateBase(_context, standings))
+            ViewData["Answer"] = "Збережено";
+            int count = _context.Standings.Where(p => p.Competition_Id == id).Count();
+            if (count != 0)
+            {
+                List<Standing> stan = standingApi.SaveAllToDateBase(_context, standings);
+                if (stan.Count() == 0)
+                {
+                    ViewData["Answer"] = "Турнірна таблиця вже була збережена в базі даних";
+                    return View(standings[0]);
+                }
+                foreach (Standing s in stan)
+                {
+                    _context.Standings.Add(s);
+                }
+                await _context.SaveChangesAsync();
+                return View(standings[0]);
+            }
+            foreach (Standing s in standings)
             {
                 _context.Standings.Add(s);
             }
             await _context.SaveChangesAsync();
-            return View();
+            return View(standings[0]);    
         }
-
-
     }
 }

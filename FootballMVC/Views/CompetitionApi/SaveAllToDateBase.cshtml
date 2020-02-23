@@ -1,8 +1,11 @@
-﻿@{
+﻿@model FootballMVC.Models.Entities.Competition
+@{
     ViewData["Title"] = "SaveAllToDateBase";
 }
 
-<h1>Всі турніри збережені в базі даних</h1>
+<h1>@ViewData["Answer"]</h1>
+
 <div>
-    <a  asp-action="CountryLeags">Назад</a>
+    <a asp-action="CountryLeags" asp-route-id="@Model.CountryId">Назад</a>
 </div>
+

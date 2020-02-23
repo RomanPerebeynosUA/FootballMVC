@@ -20,7 +20,7 @@ namespace FootballMVC.Data.ApiData.Repositories
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
-                // player = await response.Content.ReadAsAsync<Player>();
+               
                 json = await response.Content.ReadAsStringAsync();
                 json = json.Trim('[', ']');
                 player = JsonSerializer.Deserialize<Player>(json);
@@ -32,27 +32,25 @@ namespace FootballMVC.Data.ApiData.Repositories
         {
             throw new NotImplementedException();
         }
-        public List<Player> SaveAllToDateBase(AppDBContext _context, List<Player> players)
+        public  List<Player> SaveAllToDateBase(AppDBContext _context, List<Player> players)
         {
             List<long> str1 = new List<long>();
             List<long> str2 = new List<long>();
-            List<long> str3 = new List<long>();
-
             List<Player> play = new List<Player>();
 
             foreach (Player t in players)
             {
                 str1.Add(t.Id);
             }
-            foreach (Player t in _context.Players)
+            foreach (Player t in _context.Players.Where(p => p.TeamId == players[0].TeamId))
             {
-                str2.Add(t.Id);
+                    str2.Add(t.Id);
             }
-            str3 = str1.Except(str2).ToList();
+            str1 = str1.Except(str2).ToList();
 
             foreach (Player t in players)
             {
-                foreach (long s in str3)
+                foreach (long s in str1)
                 {
                     if (t.Id == s)
                     {

@@ -27,7 +27,6 @@ namespace FootballMVC.Data.ApiData.Repositories
             HttpResponseMessage response = await client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
-                // competitions = await response.Content.ReadAsAsync < List<Competition>>();
                 json = await response.Content.ReadAsStringAsync();
                 if (json == eror) 
                 {
@@ -42,23 +41,25 @@ namespace FootballMVC.Data.ApiData.Repositories
         {
             List<string> str1 = new List<string>();
             List<string> str2 = new List<string>();
-            List<string> str3 = new List<string>();
-
             List<Standing> standAdd = new List<Standing>();
 
             foreach (Standing t in standings)
             {
                 str1.Add(t.Team_id);
             }
-            foreach (Standing t in _context.Standings)
+            foreach (Standing t in _context.Standings.Where(
+                p => p.Competition_Id == standings[0].Competition_Id))
             {
                 str2.Add(t.Team_id);
             }
-            str3 = str1.Except(str2).ToList();
-
+            str1 = str1.Except(str2).ToList();
+            if (str1.Count == 0)
+            {
+                return (standAdd);
+            }
             foreach (Standing t in standings)
             {
-                foreach (string s in str3)
+                foreach (string s in str1)
                 {
                     if (t.Team_id == s)
                     {

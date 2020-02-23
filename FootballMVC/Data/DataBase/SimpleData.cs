@@ -30,21 +30,21 @@ namespace FootballMVC.Data.DataBase
             if (!context.Players.Any())
                 {
 
-                    context.Players.AddRange(
-                        new Player
-                        {
-                            Name = "Roman Perebeynos",
-                            Age = "20",
-                            TeamId = "344"
-                        },
-                        new Player
-                        {
-
-                            Name = "Petro Perebeynos",
-                            Age = "20",
-                            TeamId = "343"
-                        }
-                    );
+                context.Players.AddRange(
+                    new Player
+                    {
+                        Id = 1,
+                        Name = "Roman Perebeynos",
+                        Age = "20",
+                        TeamId = "344"
+                    },
+                    new Player
+                    {
+                        Id = 2,
+                        Name = "Petro Perebeynos",
+                        Age = "20",
+                        TeamId = "343"
+                    });
                     context.SaveChanges();
                 }
           

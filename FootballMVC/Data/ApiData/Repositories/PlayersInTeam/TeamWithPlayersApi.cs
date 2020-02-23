@@ -1,4 +1,5 @@
 ﻿using FootballMVC.Data.ApiData.Interfaces;
+using FootballMVC.Data.DataBase;
 using FootballMVC.Models.Entities.PlayersInTeam;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,11 @@ namespace FootballMVC.Data.ApiData.Repositories.PlayersInTeam
         }
 
         public Task<List<TeamWithPlayers>> GetListEntityAsync(string path, HttpClient client)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<TeamWithPlayers> SaveAllToDateBase(AppDBContext _context, List<TeamWithPlayers> elements)
         {
             throw new NotImplementedException();
         }

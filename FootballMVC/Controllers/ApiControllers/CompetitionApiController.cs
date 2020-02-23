@@ -55,29 +55,34 @@ namespace FootballMVC.Controllers.ApiControllers
                         competition = c;
                     }
                 }
-
                 _context.Competitions.Add(competition);
                 await _context.SaveChangesAsync();
-                competition = null;
+                ViewData["Answer"] = "Збережено";
                 return View(competition);
             }
+            ViewData["Answer"] = "Турнір вже був збережений в базі даних";
             return View(competition);
         }
         public async Task<IActionResult> SaveAllToDateBase(string id)
         {
             List<Competition> coun = new List<Competition>();
-            bool saved = false;
+            ViewData["Answer"] = "Збережено";
             int count = _context.Competitions.Where(p => p.CountryId == id).Count();
             if (count != 0)
             {
                 coun = competitionApi.SaveAllToDateBase(_context, competitions);
+                if(coun.Count == 0)
+                {
+                    ViewData["Answer"] = "Всі турніри даної країни, " +
+                        "вже були збережені в базі даних";
+                    return View(competitions[0]);
+                }
                 foreach (Competition c in coun)
                 {
                     _context.Competitions.Add(c);
                 }
                 await _context.SaveChangesAsync();
-                saved = true;
-                return View();
+                return View(competitions[0]);
             }
             foreach (Competition c in competitions)
             {
@@ -85,7 +90,7 @@ namespace FootballMVC.Controllers.ApiControllers
             }
             await _context.SaveChangesAsync();
           
-            return View(saved);
+            return View(competitions[0]);
         }
 
     }

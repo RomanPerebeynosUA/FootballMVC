@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FootballMVC.Data.DataBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -11,6 +12,7 @@ namespace FootballMVC.Data.ApiData.Interfaces
         {
             Task<T> GetEntityAsync(string path, HttpClient client);
             Task<List<T>> GetListEntityAsync(string path, HttpClient client);
+            List<T> SaveAllToDateBase(AppDBContext _context, List<T> elements);
         }
     
 }

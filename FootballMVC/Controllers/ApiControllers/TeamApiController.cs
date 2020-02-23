@@ -21,6 +21,8 @@ namespace FootballMVC.Controllers.ApiControllers
 
         TeamApi teamApi = new TeamApi();
         TeamWithPlayersApi teamwithPlayersApi = new TeamWithPlayersApi();
+        static string competitionID;
+       
 
         private readonly AppDBContext _context;
 
@@ -42,15 +44,17 @@ namespace FootballMVC.Controllers.ApiControllers
             {
                 return NotFound();
             }
-           
+            competitionID = id;
             string defolt = "https://apiv2.apifootball.com?action=get_teams&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&league_id=";
             defolt += id;
+            ViewBag.Id = id;
             teams = await teamApi.GetListEntityAsync(defolt, client);
             return View(teams.ToList());
         }
         public async Task<IActionResult> SaveToDateBase(string id)
         {
             var team = await _context.Teams.FindAsync(id);
+            ViewBag.Id = competitionID;
             if (team == null)
             {
                 foreach (Team c in teams)
@@ -60,18 +64,25 @@ namespace FootballMVC.Controllers.ApiControllers
                         team = c;
                     }
                 }
-
                 _context.Teams.Add(team);
                 await _context.SaveChangesAsync();
-                team = null;
+                ViewData["Answer"] = "Збережено";
                 return View(team);
             }
+            ViewData["Answer"] = "Команда вже була збережена в базі даних";
             return View(team);
         }
         public async Task<IActionResult> SaveAllToDateBase()
         {
-            List<Team> teamAdd = new List<Team>();
+            List<Team> teamAdd;
+            ViewData["Answer"] = "Збережено";
+            ViewBag.Id = competitionID;
             teamAdd = teamApi.SaveAllToDateBase(_context, teams);
+            if(teamAdd.Count() == 0)
+            {
+                ViewData["Answer"] = "Команда вже була збережена в базі даних";
+                return View();
+            }
             foreach (Team t in teamAdd)
             {
               _context.Teams.Add(t);
@@ -79,22 +90,5 @@ namespace FootballMVC.Controllers.ApiControllers
              await _context.SaveChangesAsync();
             return View();
         }
-
-        //public async Task<IActionResult> ViewPlayersByTeamId(string id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }            
-        //    string defolt = "https://apiv2.apifootball.com?action=get_teams&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&team_id=";
-        //    defolt += id;
-        //    Team team = await teamApi.GetEntityAsync(defolt, client);
-        //    foreach (Player p in team.Players)
-        //    {    
-        //        p.TeamId = team.Id;
-        //        players.Add(p);
-        //    }
-        //    return View(team.Players.ToList());
-        //}
     }
 }

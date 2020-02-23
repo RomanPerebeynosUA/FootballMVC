@@ -44,58 +44,26 @@ namespace FootballMVC.Controllers.ApiControllers
                         country = c;
                     }
                 }
-
                 _context.Countries.Add(country);
                 await _context.SaveChangesAsync();
-                country = null;
-                return View(country);
+                ViewData["Answer"] = "Збережено";
+                return View();
             }
-            return View(country);
+            ViewData["Answer"] = "Країна вже була збережена в базі даних";
+            return View();
         }
-        //public async Task<IActionResult> SaveAllToDateBase()
-        //{
-        //    List<string> str1 = new List<string>();
-        //    List<string> str2 = new List<string>();
-        //    List<string> str3;
-        //    int count = _context.Countries.Count();
-        //    if (count !=0)
-        //    {
-        //        foreach (Country c in countries)
-        //        {
-        //            str1.Add(c.Id);
-        //        }
-        //        foreach (Country c in _context.Countries)
-        //        {
-        //            str2.Add(c.Id);
-        //        }
-        //        str3 = str1.Except(str2).ToList();
-        //        foreach (Country c in countries)
-        //        {
-        //            foreach (string s in str3)
-        //            {
-        //                if(c.Id == s)
-        //                {
-        //                    _context.Countries.Add(c);
-        //                }
-        //            }
-        //        }
-        //        await _context.SaveChangesAsync();
-        //        return View();
-        //    }
-        //    foreach (Country c in countries)
-        //    {
-        //        _context.Countries.Add(c);
-        //    }
-        //    await _context.SaveChangesAsync();
-        //    return View();
-        //}
         public async Task<IActionResult> SaveAllToDateBase()
         {
+            ViewData["Answer"] = "Всі країни збережено в базі даних";
             List<Country> coun = new List<Country>();
-            int count = _context.Countries.Count();
-            if (count != 0)
+            if (_context.Countries.Count() != 0)
             {
                 coun = countryApi.SaveAllToDateBase(_context, countries);
+                if (coun.Count() == 0)
+                {
+                    ViewData["Answer"] = "Всі країни вже були збережені в базі даних";
+                    return View();
+                }
                 foreach (Country c in coun)
                 {
                   _context.Countries.Add(c);

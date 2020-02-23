@@ -1,9 +1,11 @@
-﻿
+﻿@model FootballMVC.Models.Entities.Team
 @{
-    ViewData["Title"] = "SaveToDateBase";
+    ViewData["Title"] = "SaveAllToDateBase";
 }
 
-<h1>Збережено</h1>
+<h1>@ViewData["Answer"]</h1>
 
-
+<div>
+    <a asp-controller="TeamApi" asp-action="ViewTemsByLeagID" asp-route-id=@ViewBag.Id>Назад</a>
+</div>
 

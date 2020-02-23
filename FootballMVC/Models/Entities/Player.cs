@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace FootballMVC.Models.Entities
     public class Player
     {
         [JsonPropertyName("player_key")]
-        [Key]
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long Id { get; set; }
 
         [JsonPropertyName("player_name")]

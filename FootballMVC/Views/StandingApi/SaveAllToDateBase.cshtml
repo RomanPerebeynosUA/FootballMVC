@@ -1,9 +1,11 @@
-﻿
+﻿@model FootballMVC.Models.Entities.Standing
 @{
-    ViewData["Title"] = "SaveToDateBase";
+    ViewData["Title"] = "SaveAllToDateBase";
 }
 
-<h1>Збережено</h1>
+<h1>@ViewData["Answer"]</h1>
 
-
+<div>
+    <a asp-action="ViewStandingByLeagID" asp-route-id="@Model.Competition_Id">Назад</a>
+</div>
 

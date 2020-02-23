@@ -2,7 +2,8 @@
     ViewData["Title"] = "SaveAllToDateBase";
 }
 
-<h1>Всі гравці збережені в базі даних</h1>
-@*<div>
-    <a  asp-action="CountryLeags">Назад</a>
-</div>*@
+    <h1>@ViewData["Answer"]</h1>
+
+<div>
+    <a  asp-action="ViewPlayersByTeamId" asp-route-id=@ViewBag.Id>Назад</a>
+</div>

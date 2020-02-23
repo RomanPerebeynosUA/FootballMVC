@@ -45,8 +45,7 @@ namespace FootballMVC.Data.ApiData.Repositories
         {
             List<string> str1 = new List<string>();
             List<string> str2 = new List<string>();
-            List<string> str3 = new List<string>();
-
+   
             List<Team> teamAdd = new List<Team>();
 
             foreach (Team t in teams)
@@ -57,11 +56,11 @@ namespace FootballMVC.Data.ApiData.Repositories
             {
                 str2.Add(t.Id);
             }
-             str3 = str1.Except(str2).ToList();
+            str1 = str1.Except(str2).ToList();
 
             foreach (Team t in teams)
             {
-                foreach (string s in str3)
+                foreach (string s in str1)
                 {
                     if (t.Id == s)
                     {
