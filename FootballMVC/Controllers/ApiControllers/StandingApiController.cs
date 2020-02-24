@@ -15,21 +15,19 @@ namespace FootballMVC.Controllers.ApiControllers
     {
         private static HttpClient client = new HttpClient();
 
-        StandingApi standingApi = new StandingApi();
-
         static List<Standing> standings = new List<Standing>();
 
-        private readonly AppDBContext _context;
-        public StandingApiController(AppDBContext context)
+        private readonly DataManager dataManager;
+        public StandingApiController(DataManager dataManager)
         {
-            _context = context;
+            this.dataManager = dataManager;
         }
 
         public async Task<IActionResult> Index()
         {
           
             string defolt = "https://apiv2.apifootball.com?action=get_standings&league_id=148&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
-            List<Standing>  standings = await standingApi.GetListEntityAsync(defolt, client);
+            List<Standing>  standings = await dataManager.StandingRepositoryApi.GetListEntityAsync(defolt, client);
             return View(standings);
         }
         public async Task<IActionResult> ViewStandingByLeagID(string id)
@@ -42,7 +40,7 @@ namespace FootballMVC.Controllers.ApiControllers
             string defolt = "https://apiv2.apifootball.com?action=get_standings&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&league_id=";
             defolt += id;
         
-            standings = await standingApi.GetListEntityAsync(defolt, client);
+            standings = await dataManager.StandingRepositoryApi.GetListEntityAsync(defolt, client);
             if (standings == null)
             {
                 return NotFound();
@@ -52,10 +50,11 @@ namespace FootballMVC.Controllers.ApiControllers
         public async Task<IActionResult> SaveAllToDateBase(string id)
         {
             ViewData["Answer"] = "Збережено";
-            int count = _context.Standings.Where(p => p.Competition_Id == id).Count();
-            if (count != 0)
+            
+            if (dataManager.StandingRepositoryApi.GetEntityItems().
+                Where(p => p.Competition_Id == id).Count() != 0)
             {
-                List<Standing> stan = standingApi.SaveAllToDateBase(_context, standings);
+                List<Standing> stan = dataManager.StandingRepositoryApi.SaveAllToDateBase(standings);
                 if (stan.Count() == 0)
                 {
                     ViewData["Answer"] = "Турнірна таблиця вже була збережена в базі даних";
@@ -63,16 +62,14 @@ namespace FootballMVC.Controllers.ApiControllers
                 }
                 foreach (Standing s in stan)
                 {
-                    _context.Standings.Add(s);
+                    await dataManager.StandingRepositoryApi.SaveEntity(s);
                 }
-                await _context.SaveChangesAsync();
                 return View(standings[0]);
             }
             foreach (Standing s in standings)
             {
-                _context.Standings.Add(s);
+                await dataManager.StandingRepositoryApi.SaveEntity(s);
             }
-            await _context.SaveChangesAsync();
             return View(standings[0]);    
         }
     }

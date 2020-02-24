@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FootballMVC.Data.ApiData.Repositories.PlayersInTeam
 {
-    public class TeamWithPlayersApi : IRepositoryApi<TeamWithPlayers>
+    public class TeamWithPlayersApi : IRepositoryApi<TeamWithPlayers, string>
     {
         public async Task<TeamWithPlayers> GetEntityAsync(string path, HttpClient client)
         {
@@ -27,12 +27,26 @@ namespace FootballMVC.Data.ApiData.Repositories.PlayersInTeam
             return team;
         }
 
-        public Task<List<TeamWithPlayers>> GetListEntityAsync(string path, HttpClient client)
+        public TeamWithPlayers GetEntityItemById(string id)
         {
             throw new NotImplementedException();
         }
 
-        public List<TeamWithPlayers> SaveAllToDateBase(AppDBContext _context, List<TeamWithPlayers> elements)
+        public IQueryable<TeamWithPlayers> GetEntityItems()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<TeamWithPlayers>> GetListEntityAsync(string path, HttpClient client)
+        {
+            throw new NotImplementedException();
+        }
+        public List<TeamWithPlayers> SaveAllToDateBase(List<TeamWithPlayers> elements)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SaveEntity(TeamWithPlayers entity)
         {
             throw new NotImplementedException();
         }

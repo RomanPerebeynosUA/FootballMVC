@@ -12,21 +12,17 @@ namespace FootballMVC.Controllers.DataControllers
 {
     public class CompetitionsController : Controller
     {
-        private readonly AppDBContext _context;
-
-        public CompetitionsController(AppDBContext context)
+        private readonly DataManagerBd dataManager;
+        public CompetitionsController(DataManagerBd dataManager)
         {
-            _context = context;
+            this.dataManager = dataManager;
         }
-
-        // GET: Competitions
         public async Task<IActionResult> Index()
         {
-            var appDBContext = _context.Competitions.Include(c => c.Country);
-            return View(await appDBContext.ToListAsync());
+            return View(await dataManager.CompetitionRepository.GetEntityListItemsByKey());
         }
 
-        // GET: Competitions/Details/5
+   
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -34,9 +30,8 @@ namespace FootballMVC.Controllers.DataControllers
                 return NotFound();
             }
 
-            var competition = await _context.Competitions
-                .Include(c => c.Country)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var competition = await dataManager.
+                CompetitionRepository.GetEntityItems(id);
             if (competition == null)
             {
                 return NotFound();
@@ -45,31 +40,31 @@ namespace FootballMVC.Controllers.DataControllers
             return View(competition);
         }
 
-        // GET: Competitions/Create
+    
         public IActionResult Create()
         {
-            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Id");
+            ViewData["CountryId"] = new SelectList( dataManager.
+                CountryRepository.GetEntityNoAsyncListItems(), "Id", "Id");
             return View();
         }
 
-        // POST: Competitions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+    
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,CountryId")] Competition competition)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(competition);
-                await _context.SaveChangesAsync();
+                await dataManager.
+                CompetitionRepository.SaveEntity(competition);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Id", competition.CountryId);
+            ViewData["CountryId"] = new SelectList(dataManager.
+                CountryRepository.GetEntityNoAsyncListItems(), "Id", "Id", competition.CountryId);
             return View(competition);
         }
 
-        // GET: Competitions/Edit/5
+    
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -77,18 +72,17 @@ namespace FootballMVC.Controllers.DataControllers
                 return NotFound();
             }
 
-            var competition = await _context.Competitions.FindAsync(id);
+            var competition = await dataManager.
+                CompetitionRepository.GetEntityItems(id);
             if (competition == null)
             {
                 return NotFound();
             }
-            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Id", competition.CountryId);
+            ViewData["CountryId"] = new SelectList(dataManager.
+                CountryRepository.GetEntityNoAsyncListItems(), "Id", "Id", competition.CountryId);
             return View(competition);
         }
 
-        // POST: Competitions/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name,CountryId")] Competition competition)
@@ -102,12 +96,13 @@ namespace FootballMVC.Controllers.DataControllers
             {
                 try
                 {
-                    _context.Update(competition);
-                    await _context.SaveChangesAsync();
+                   await dataManager.
+                  CompetitionRepository.UpdateEntity(competition);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CompetitionExists(competition.Id))
+                    if (!dataManager.
+                  CompetitionRepository.EntityExists(competition.Id))
                     {
                         return NotFound();
                     }
@@ -118,11 +113,12 @@ namespace FootballMVC.Controllers.DataControllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CountryId"] = new SelectList(_context.Countries, "Id", "Id", competition.CountryId);
+            ViewData["CountryId"] = new SelectList(dataManager.
+                CountryRepository.GetEntityNoAsyncListItems(), "Id", "Id", competition.CountryId);
             return View(competition);
         }
 
-        // GET: Competitions/Delete/5
+    
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -130,9 +126,8 @@ namespace FootballMVC.Controllers.DataControllers
                 return NotFound();
             }
 
-            var competition = await _context.Competitions
-                .Include(c => c.Country)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var competition = await dataManager.
+                CompetitionRepository.GetEntityItems(id);
             if (competition == null)
             {
                 return NotFound();
@@ -141,20 +136,16 @@ namespace FootballMVC.Controllers.DataControllers
             return View(competition);
         }
 
-        // POST: Competitions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var competition = await _context.Competitions.FindAsync(id);
-            _context.Competitions.Remove(competition);
-            await _context.SaveChangesAsync();
+            var competition = await dataManager.
+                CompetitionRepository.GetEntityItems(id);
+           
+            await dataManager.
+                CompetitionRepository.RemoveEntity(competition);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CompetitionExists(string id)
-        {
-            return _context.Competitions.Any(e => e.Id == id);
         }
     }
 }

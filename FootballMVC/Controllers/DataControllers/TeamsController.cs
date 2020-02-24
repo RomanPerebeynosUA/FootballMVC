@@ -12,20 +12,17 @@ namespace FootballMVC.Controllers.DataControllers
 {
     public class TeamsController : Controller
     {
-        private readonly AppDBContext _context;
-
-        public TeamsController(AppDBContext context)
+        private readonly DataManagerBd dataManager;
+        public TeamsController(DataManagerBd dataManager)
         {
-            _context = context;
+            this.dataManager = dataManager;
         }
 
-        // GET: Teams
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Teams.ToListAsync());
+            return View(await dataManager.TeamRepository.GetEntityListItems());
         }
 
-        // GET: Teams/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -33,8 +30,7 @@ namespace FootballMVC.Controllers.DataControllers
                 return NotFound();
             }
 
-            var team = await _context.Teams
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var team = await dataManager.TeamRepository.GetEntityItems(id);
             if (team == null)
             {
                 return NotFound();
@@ -43,29 +39,24 @@ namespace FootballMVC.Controllers.DataControllers
             return View(team);
         }
 
-        // GET: Teams/Create
+     
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Teams/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Team team)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(team);
-                await _context.SaveChangesAsync();
+                await dataManager.TeamRepository.SaveEntity(team);
                 return RedirectToAction(nameof(Index));
             }
             return View(team);
         }
 
-        // GET: Teams/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -73,7 +64,7 @@ namespace FootballMVC.Controllers.DataControllers
                 return NotFound();
             }
 
-            var team = await _context.Teams.FindAsync(id);
+            var team = await dataManager.TeamRepository.GetEntityItems(id);
             if (team == null)
             {
                 return NotFound();
@@ -81,9 +72,6 @@ namespace FootballMVC.Controllers.DataControllers
             return View(team);
         }
 
-        // POST: Teams/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name")] Team team)
@@ -97,12 +85,11 @@ namespace FootballMVC.Controllers.DataControllers
             {
                 try
                 {
-                    _context.Update(team);
-                    await _context.SaveChangesAsync();
+                    await dataManager.TeamRepository.UpdateEntity(team);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TeamExists(team.Id))
+                    if (!dataManager.TeamRepository.EntityExists(team.Id))
                     {
                         return NotFound();
                     }
@@ -116,7 +103,6 @@ namespace FootballMVC.Controllers.DataControllers
             return View(team);
         }
 
-        // GET: Teams/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -124,8 +110,7 @@ namespace FootballMVC.Controllers.DataControllers
                 return NotFound();
             }
 
-            var team = await _context.Teams
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var team = await dataManager.TeamRepository.GetEntityItems(id);
             if (team == null)
             {
                 return NotFound();
@@ -133,21 +118,14 @@ namespace FootballMVC.Controllers.DataControllers
 
             return View(team);
         }
-
-        // POST: Teams/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var team = await _context.Teams.FindAsync(id);
-            _context.Teams.Remove(team);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            var team = await dataManager.TeamRepository.GetEntityItems(id);
 
-        private bool TeamExists(string id)
-        {
-            return _context.Teams.Any(e => e.Id == id);
+            await dataManager.TeamRepository.RemoveEntity(team);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

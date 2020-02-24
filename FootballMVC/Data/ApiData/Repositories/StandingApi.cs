@@ -11,12 +11,28 @@ using System.Threading.Tasks;
 
 namespace FootballMVC.Data.ApiData.Repositories
 {
-    public class StandingApi : IRepositoryApi<Standing>
+    public class StandingApi : IRepositoryApi<Standing, int>
     {
+        AppDBContext _context;
+        public StandingApi(AppDBContext context)
+        {
+            _context = context;
+        }
         public Task<Standing> GetEntityAsync(string path, HttpClient client)
         {
             throw new NotImplementedException();
         }
+
+        public  Standing GetEntityItemById(int id)
+        {
+            return _context.Standings.FirstOrDefault(p => p.Id == id);
+        }
+
+        public IQueryable<Standing> GetEntityItems()
+        {
+            return _context.Standings;
+        }
+
         public async Task<List<Standing>> GetListEntityAsync(string path, HttpClient client)
         {
             string json;
@@ -37,7 +53,7 @@ namespace FootballMVC.Data.ApiData.Repositories
             }
             return standings;
         }
-        public List<Standing> SaveAllToDateBase(AppDBContext _context, List<Standing> standings)
+        public List<Standing> SaveAllToDateBase(List<Standing> standings)
         {
             List<string> str1 = new List<string>();
             List<string> str2 = new List<string>();
@@ -69,7 +85,11 @@ namespace FootballMVC.Data.ApiData.Repositories
             }
             return (standAdd);
         }
-
+        public async Task SaveEntity(Standing entity)
+        {
+            _context.Standings.Add(entity);
+            await _context.SaveChangesAsync();
+        }
     }
 
 }

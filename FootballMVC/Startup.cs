@@ -2,7 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FootballMVC.Data.ApiData.Interfaces;
+using FootballMVC.Data.ApiData.Repositories;
+using FootballMVC.Data.ApiData.Repositories.PlayersInTeam;
+using FootballMVC.Data.BdData.Interfaces;
+using FootballMVC.Data.BdData.Repositories;
 using FootballMVC.Data.DataBase;
+using FootballMVC.Models.Entities;
+using FootballMVC.Models.Entities.PlayersInTeam;
 using FootballMVC.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,7 +29,24 @@ namespace FootballMVC
         {
             Configuration.Bind("Project", new Config());
             services.AddDbContext<AppDBContext>(x => x.UseSqlServer(Config.ConnectionString));
+
+            
+            services.AddTransient<IRepositoryApi<Country, string>, CountryApi>();
+            services.AddTransient<IRepositoryApi<Competition, string>, CompetitionApi>();
+            services.AddTransient<IRepositoryApi<Team, string>, TeamApi>();
+            services.AddTransient<IRepositoryApi<Standing, int>, StandingApi>();
+            services.AddTransient<IRepositoryApi<Player, long>, PlayerApi>();
+            services.AddTransient<IRepositoryApi<TeamWithPlayers, string>, TeamWithPlayersApi>();
+            services.AddTransient<DataManager>();
+
+            services.AddTransient<IRepositoryBd<Country, string>, CountryRepositoryBd>();
+            services.AddTransient<IRepositoryBd<Competition, string>, CompetitionRepositoryBd>();
+            services.AddTransient<IRepositoryBd<Team, string>, TeamRepositoryBd>();
+            services.AddTransient<IRepositoryBd<Standing, int>, StandingRepositoryBd>();
+            services.AddTransient<IRepositoryBd<Player, long>, PlayerRepositoryBd>();
+            services.AddTransient<DataManagerBd>();
             services.AddControllersWithViews();
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

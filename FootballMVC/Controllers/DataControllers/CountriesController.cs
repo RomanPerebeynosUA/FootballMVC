@@ -7,25 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using FootballMVC.Data.DataBase;
 using FootballMVC.Models.Entities;
+using FootballMVC.Data.ApiData.Interfaces;
 
 namespace FootballMVC.Controllers.DataControllers
 {
     public class CountriesController : Controller
     {
-        private readonly AppDBContext _context;
 
-        public CountriesController(AppDBContext context)
+        private readonly DataManagerBd dataManager;
+        public CountriesController(DataManagerBd dataManager)
         {
-            _context = context;
+            this.dataManager = dataManager;
         }
 
-        // GET: Countries
+      
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Countries.ToListAsync());
+
+            return View(await dataManager.CountryRepository.GetEntityListItems());
         }
 
-        // GET: Countries/Details/5
+        
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -33,8 +35,7 @@ namespace FootballMVC.Controllers.DataControllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var country = await dataManager.CountryRepository.GetEntityItems(id);
             if (country == null)
             {
                 return NotFound();
@@ -43,29 +44,26 @@ namespace FootballMVC.Controllers.DataControllers
             return View(country);
         }
 
-        // GET: Countries/Create
+     
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Countries/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name")] Country country)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(country);
-                await _context.SaveChangesAsync();
+
+                await dataManager.CountryRepository.SaveEntity(country);
                 return RedirectToAction(nameof(Index));
             }
             return View(country);
         }
 
-        // GET: Countries/Edit/5
+       
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -73,7 +71,7 @@ namespace FootballMVC.Controllers.DataControllers
                 return NotFound();
             }
 
-            var country = await _context.Countries.FindAsync(id);
+            var country = await dataManager.CountryRepository.GetEntityItems(id);
             if (country == null)
             {
                 return NotFound();
@@ -81,9 +79,7 @@ namespace FootballMVC.Controllers.DataControllers
             return View(country);
         }
 
-        // POST: Countries/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name")] Country country)
@@ -97,12 +93,11 @@ namespace FootballMVC.Controllers.DataControllers
             {
                 try
                 {
-                    _context.Update(country);
-                    await _context.SaveChangesAsync();
+                    await dataManager.CountryRepository.UpdateEntity(country);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!CountryExists(country.Id))
+                    if (!dataManager.CountryRepository.EntityExists(country.Id))
                     {
                         return NotFound();
                     }
@@ -116,7 +111,7 @@ namespace FootballMVC.Controllers.DataControllers
             return View(country);
         }
 
-        // GET: Countries/Delete/5
+     
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -124,8 +119,7 @@ namespace FootballMVC.Controllers.DataControllers
                 return NotFound();
             }
 
-            var country = await _context.Countries
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var country = await dataManager.CountryRepository.GetEntityItems(id);
             if (country == null)
             {
                 return NotFound();
@@ -133,21 +127,14 @@ namespace FootballMVC.Controllers.DataControllers
 
             return View(country);
         }
-
-        // POST: Countries/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var country = await _context.Countries.FindAsync(id);
-            _context.Countries.Remove(country);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            var country = await dataManager.CountryRepository.GetEntityItems(id);
 
-        private bool CountryExists(string id)
-        {
-            return _context.Countries.Any(e => e.Id == id);
+            await dataManager.CountryRepository.RemoveEntity(country);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

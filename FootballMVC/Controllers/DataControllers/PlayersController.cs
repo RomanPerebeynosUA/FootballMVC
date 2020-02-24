@@ -12,31 +12,20 @@ namespace FootballMVC.Controllers.DataControllers
 {
     public class PlayersController : Controller
     {
-        private readonly AppDBContext _context;
-
-        public PlayersController(AppDBContext context)
+        private readonly DataManagerBd dataManager;
+        public PlayersController(DataManagerBd dataManager)
         {
-            _context = context;
+            this.dataManager = dataManager;
         }
 
-        // GET: Players
         public async Task<IActionResult> Index()
         {
-            var appDBContext = _context.Players.Include(p => p.Team);
-            return View(await appDBContext.ToListAsync());
+            return View(await dataManager.PlayerRepository.GetEntityListItemsByKey());
         }
 
-        // GET: Players/Details/5
-        public async Task<IActionResult> Details(long? id)
+        public async Task<IActionResult> Details(long id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var player = await _context.Players
-                .Include(p => p.Team)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var player = await dataManager.PlayerRepository.GetEntityItems(id);
             if (player == null)
             {
                 return NotFound();
@@ -45,10 +34,9 @@ namespace FootballMVC.Controllers.DataControllers
             return View(player);
         }
 
-        // GET: Players/Create
         public IActionResult Create()
         {
-            ViewData["TeamId"] = new SelectList(_context.Teams, "Id", "Id");
+            ViewData["TeamId"] = new SelectList(dataManager.TeamRepository.GetEntityNoAsyncListItems(), "Id", "Id");
             return View();
         }
 
@@ -57,41 +45,34 @@ namespace FootballMVC.Controllers.DataControllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Number,Country,Type,Age,Match_played,Goals,Yellow_cards,Red_cards,TeamId")] Player player)
+        public async Task<IActionResult> Create([Bind("Id,Name,Number,Country,Type,Age," +
+            "Match_played,Goals,Yellow_cards,Red_cards,TeamId")] Player player)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(player);
-                await _context.SaveChangesAsync();
+                await dataManager.PlayerRepository.SaveEntity(player);
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TeamId"] = new SelectList(_context.Teams, "Id", "Id", player.TeamId);
+            ViewData["TeamId"] = new SelectList(dataManager.TeamRepository.GetEntityNoAsyncListItems(), "Id", "Id", player.TeamId);
             return View(player);
         }
 
         // GET: Players/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        public async Task<IActionResult> Edit(long id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var player = await _context.Players.FindAsync(id);
+         
+            var player = await dataManager.PlayerRepository.GetEntityItems(id);
             if (player == null)
             {
                 return NotFound();
             }
-            ViewData["TeamId"] = new SelectList(_context.Teams, "Id", "Id", player.TeamId);
+            ViewData["TeamId"] = new SelectList (dataManager.TeamRepository.GetEntityNoAsyncListItems(), "Id", "Id", player.TeamId);
             return View(player);
         }
-
-        // POST: Players/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Number,Country,Type,Age,Match_played,Goals,Yellow_cards,Red_cards,TeamId")] Player player)
+        public async Task<IActionResult> Edit(long id, [Bind("Id,Name,Number,Country,Type,Age," +
+            "Match_played,Goals,Yellow_cards,Red_cards,TeamId")] Player player)
         {
             if (id != player.Id)
             {
@@ -102,12 +83,11 @@ namespace FootballMVC.Controllers.DataControllers
             {
                 try
                 {
-                    _context.Update(player);
-                    await _context.SaveChangesAsync();
+                    await dataManager.PlayerRepository.UpdateEntity(player);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PlayerExists(player.Id))
+                    if (!dataManager.PlayerRepository.EntityExists(player.Id))
                     {
                         return NotFound();
                     }
@@ -118,21 +98,14 @@ namespace FootballMVC.Controllers.DataControllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["TeamId"] = new SelectList(_context.Teams, "Id", "Id", player.TeamId);
+            ViewData["TeamId"] = new SelectList(dataManager.TeamRepository.GetEntityNoAsyncListItems(), "Id", "Id", player.TeamId);
             return View(player);
         }
 
         // GET: Players/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        public async Task<IActionResult> Delete(long id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var player = await _context.Players
-                .Include(p => p.Team)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var player = await dataManager.PlayerRepository.GetEntityItems(id);
             if (player == null)
             {
                 return NotFound();
@@ -141,20 +114,13 @@ namespace FootballMVC.Controllers.DataControllers
             return View(player);
         }
 
-        // POST: Players/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(long id)
         {
-            var player = await _context.Players.FindAsync(id);
-            _context.Players.Remove(player);
-            await _context.SaveChangesAsync();
+            var player = await dataManager.PlayerRepository.GetEntityItems(id);
+            await  dataManager.PlayerRepository.RemoveEntity(player);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PlayerExists(long id)
-        {
-            return _context.Players.Any(e => e.Id == id);
         }
     }
 }

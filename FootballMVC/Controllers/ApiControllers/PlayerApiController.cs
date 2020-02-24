@@ -20,20 +20,16 @@ namespace FootballMVC.Controllers.ApiControllers
         static List<Player> players = new List<Player>();
         static string TeamId;
 
-        PlayerApi playerApi = new PlayerApi();
-        TeamWithPlayersApi teamwithPlayersApi = new TeamWithPlayersApi();
-
-        private readonly AppDBContext _context;
-
-        public PlayerApiController(AppDBContext context)
+        private readonly DataManager dataManager;
+        public PlayerApiController(DataManager dataManager)
         {
-            _context = context;
+            this.dataManager = dataManager;
         }
 
         public async Task<IActionResult> Index()
         {
             string defolt = "https://apiv2.apifootball.com?action=get_players&player_id=3183500916&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
-            return View(await playerApi.GetEntityAsync(defolt, client));
+            return View(await dataManager.PlayerRepositoryApi.GetEntityAsync(defolt, client));
         }
 
         public async Task<IActionResult> ViewPlayersByTeamId(string id)
@@ -46,7 +42,7 @@ namespace FootballMVC.Controllers.ApiControllers
             }
             string defolt = "https://apiv2.apifootball.com?action=get_teams&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&team_id=";
             defolt += id;
-            TeamWithPlayers team = await teamwithPlayersApi.GetEntityAsync(defolt, client);
+            TeamWithPlayers team = await dataManager.TeamWithPRepositoryApi.GetEntityAsync(defolt, client);
             foreach (Player p in team.Players)
             {
                 p.TeamId = team.Id;
@@ -58,7 +54,7 @@ namespace FootballMVC.Controllers.ApiControllers
         {
             ViewBag.Id = TeamId;
             ViewData["Answer"] = "Збережено";
-            List<Player> play = playerApi.SaveAllToDateBase(_context, players);
+            List<Player> play = dataManager.PlayerRepositoryApi.SaveAllToDateBase(players);
             if (play.Count() == 0)
             {
                 ViewData["Answer"] = "Гравці вже були збережені в базі даних";
@@ -66,9 +62,8 @@ namespace FootballMVC.Controllers.ApiControllers
             }
             foreach (Player p in play)
             {
-                _context.Players.Add(p);
+                await dataManager.PlayerRepositoryApi.SaveEntity(p);
             }
-            await _context.SaveChangesAsync();
             return View();
         }
 

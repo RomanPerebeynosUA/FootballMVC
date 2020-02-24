@@ -11,8 +11,13 @@ using System.Threading.Tasks;
 
 namespace FootballMVC.Data.ApiData.Repositories
 {
-    public class CountryApi : IRepositoryApi<Country>
+    public class CountryApi : IRepositoryApi<Country, string>
     {
+        AppDBContext _context;
+        public CountryApi(AppDBContext context)
+        {
+            _context = context;
+        }
         public async Task<Country> GetEntityAsync(string path, HttpClient client)
         {
             Country country = null;
@@ -39,7 +44,13 @@ namespace FootballMVC.Data.ApiData.Repositories
             }
             return countries;
         }
-        public List<Country> SaveAllToDateBase(AppDBContext _context, List<Country> countries)
+
+        public IQueryable<Country> GetEntityItems()
+        {
+            return _context.Countries;
+        }
+
+        public List<Country> SaveAllToDateBase( List<Country> countries)
         {
             List<string> str1 = new List<string>();
             List<string> str2 = new List<string>();
@@ -70,6 +81,16 @@ namespace FootballMVC.Data.ApiData.Repositories
                 }
             }
             return (coun);
+        }
+
+        public Country GetEntityItemById(string id)
+        {
+            return _context.Countries.FirstOrDefault(p => p.Id == id);
+        }
+        public async Task SaveEntity(Country entity)
+        {
+            _context.Countries.Add(entity);
+            await _context.SaveChangesAsync();
         }
     }
 }
