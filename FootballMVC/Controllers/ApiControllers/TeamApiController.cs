@@ -22,12 +22,13 @@ namespace FootballMVC.Controllers.ApiControllers
         private readonly DataManager dataManager;
         public TeamApiController(DataManager dataManager)
         {
+          
             this.dataManager = dataManager;
         }
         public async Task<IActionResult> Index()
         {
             List<Team> teamsforone = new List<Team>();
-            string defolt = "https://apiv2.apifootball.com?action=get_teams&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&team_id=2611";
+            string defolt = "https://apiv2.apifootball.com?action=get_teams&APIkey=345ebb1d5cb902a9de9280564d2c2467de4d55af83f5ee1b7b25c4591ebb078e&team_id=2611";
             teamsforone.Add(await dataManager.TeamRepositoryApi.GetEntityAsync(defolt, client));
             return View(teams.ToList());
         }
@@ -38,7 +39,7 @@ namespace FootballMVC.Controllers.ApiControllers
                 return NotFound();
             }
             competitionID = id;
-            string defolt = "https://apiv2.apifootball.com?action=get_teams&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&league_id=";
+            string defolt = "https://apiv2.apifootball.com?action=get_teams&APIkey=345ebb1d5cb902a9de9280564d2c2467de4d55af83f5ee1b7b25c4591ebb078e&league_id=";
             defolt += id;
             ViewBag.Id = id;
             teams = await dataManager.TeamRepositoryApi.GetListEntityAsync(defolt, client);

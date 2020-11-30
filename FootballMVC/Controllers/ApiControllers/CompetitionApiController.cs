@@ -25,7 +25,7 @@ namespace FootballMVC.Controllers.ApiControllers
 
         public async Task<IActionResult> Index()
         {
-            string defolt = "https://apiv2.apifootball.com?action=get_leagues&country_id=41&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
+            string defolt = "https://apiv2.apifootball.com?action=get_leagues&country_id=41&APIkey=345ebb1d5cb902a9de9280564d2c2467de4d55af83f5ee1b7b25c4591ebb078e";
             return View(await dataManager.CompetitionRepositoryApi.GetListEntityAsync(defolt, client));
         }
 
@@ -35,7 +35,7 @@ namespace FootballMVC.Controllers.ApiControllers
             {
                 return NotFound();
             }
-            string defolt = "https://apiv2.apifootball.com?action=get_leagues&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&country_id=";
+            string defolt = "https://apiv2.apifootball.com?action=get_leagues&APIkey=345ebb1d5cb902a9de9280564d2c2467de4d55af83f5ee1b7b25c4591ebb078e&country_id=";
             defolt += id;
             competitions = await dataManager.CompetitionRepositoryApi.GetListEntityAsync(defolt, client);
             return View(competitions);

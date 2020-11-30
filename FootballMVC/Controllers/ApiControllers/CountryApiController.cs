@@ -26,7 +26,7 @@ namespace FootballMVC.Controllers.ApiControllers
 
         public async Task<IActionResult> Index()
         {
-            string defolt = "https://apiv2.apifootball.com?action=get_countries&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
+            string defolt = "https://apiv2.apifootball.com?action=get_countries&APIkey=557a4c8dd12d182ad230f3683aecd88058a44d6487da02cb5516a1f57114b1c4";
             countries = await dataManager.CountryRepositoryApi.GetListEntityAsync(defolt, client);
             return View(countries);
         }

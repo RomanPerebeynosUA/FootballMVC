@@ -1,6 +1,7 @@
 ﻿using FootballMVC.Data.ApiData.Interfaces;
 using FootballMVC.Data.ApiData.Repositories.PlayersInTeam;
 using FootballMVC.Models.Entities;
+using FootballMVC.Models.Entities.Events;
 using FootballMVC.Models.Entities.PlayersInTeam;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,13 @@ namespace FootballMVC.Data.DataBase
         public IRepositoryApi<Player, long> PlayerRepositoryApi { get; set; }
         public IRepositoryApi<Team, string> TeamRepositoryApi { get; set; }
         public IRepositoryApi<TeamWithPlayers, string> TeamWithPRepositoryApi { get; set; }
+        public IRepositoryApi<Event, string> EventApi { get; set; }
 
 
         public DataManager(IRepositoryApi<Country, string> countryRepositoryApi, IRepositoryApi<Competition, string> competitionRepositoryApi,
             IRepositoryApi<Standing, int> standingRepositoryApi, IRepositoryApi<Player, long>  playerRepositoryApi,
-             IRepositoryApi<Team, string> teamRepositoryApi, IRepositoryApi<TeamWithPlayers, string> teamWithPRepositoryApi)
+             IRepositoryApi<Team, string> teamRepositoryApi, IRepositoryApi<TeamWithPlayers, string> teamWithPRepositoryApi,
+           IRepositoryApi<Event, string> eventApi)
         {
             CountryRepositoryApi = countryRepositoryApi;
             CompetitionRepositoryApi = competitionRepositoryApi;
@@ -29,6 +32,8 @@ namespace FootballMVC.Data.DataBase
             PlayerRepositoryApi = playerRepositoryApi;
             TeamRepositoryApi = teamRepositoryApi;
             TeamWithPRepositoryApi = teamWithPRepositoryApi;
+            EventApi = eventApi;
+
         }
 
     }

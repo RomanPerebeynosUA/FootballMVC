@@ -28,7 +28,7 @@ namespace FootballMVC.Controllers.ApiControllers
 
         public async Task<IActionResult> Index()
         {
-            string defolt = "https://apiv2.apifootball.com?action=get_players&player_id=3183500916&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24";
+            string defolt = "https://apiv2.apifootball.com?action=get_players&player_id=3183500916&APIkey=345ebb1d5cb902a9de9280564d2c2467de4d55af83f5ee1b7b25c4591ebb078e";
             return View(await dataManager.PlayerRepositoryApi.GetEntityAsync(defolt, client));
         }
 
@@ -40,7 +40,7 @@ namespace FootballMVC.Controllers.ApiControllers
             {
                 return NotFound();
             }
-            string defolt = "https://apiv2.apifootball.com?action=get_teams&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&team_id=";
+            string defolt = "https://apiv2.apifootball.com?action=get_teams&APIkey=345ebb1d5cb902a9de9280564d2c2467de4d55af83f5ee1b7b25c4591ebb078e&team_id=";
             defolt += id;
             TeamWithPlayers team = await dataManager.TeamWithPRepositoryApi.GetEntityAsync(defolt, client);
             foreach (Player p in team.Players)
@@ -71,7 +71,7 @@ namespace FootballMVC.Controllers.ApiControllers
         //[HttpPost]
         //public async Task<IActionResult> SaveToDateBase(long Id)
         //{
-        //    string defolt = "https://apiv2.apifootball.com?action=get_players&APIkey=a31df99894dedace442c216f5e7bbb965d956ea8c88ba9b68fa2550b21583c24&player_id=";
+        //    string defolt = "https://apiv2.apifootball.com?action=get_players&APIkey=345ebb1d5cb902a9de9280564d2c2467de4d55af83f5ee1b7b25c4591ebb078e&player_id=";
         //    defolt += Id.ToString();
         //    Player player = await playerApi.GetEntityAsync(defolt, client);
 

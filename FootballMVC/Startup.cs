@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using FootballMVC.Data.ApiData.Interfaces;
 using FootballMVC.Data.ApiData.Repositories;
+using FootballMVC.Data.ApiData.Repositories.Events;
 using FootballMVC.Data.ApiData.Repositories.PlayersInTeam;
 using FootballMVC.Data.BdData.Interfaces;
 using FootballMVC.Data.BdData.Repositories;
 using FootballMVC.Data.DataBase;
 using FootballMVC.Models.Entities;
+using FootballMVC.Models.Entities.Events;
 using FootballMVC.Models.Entities.PlayersInTeam;
 using FootballMVC.Service;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +39,7 @@ namespace FootballMVC
             services.AddTransient<IRepositoryApi<Standing, int>, StandingApi>();
             services.AddTransient<IRepositoryApi<Player, long>, PlayerApi>();
             services.AddTransient<IRepositoryApi<TeamWithPlayers, string>, TeamWithPlayersApi>();
+            services.AddTransient<IRepositoryApi<Event, string>, EventApi>();
             services.AddTransient<DataManager>();
 
             services.AddTransient<IRepositoryBd<Country, string>, CountryRepositoryBd>();
